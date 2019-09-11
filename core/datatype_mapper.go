@@ -143,8 +143,9 @@ func BuildData(dt string) (interface{}, error) {
 			return value, nil
 		}
 
-	// Generate Random time without timezone
-	case StringHasPrefix(dt, Intervalkeywords):
+	// Generate Random time without timezone, Update at Sep 11th 2019, add support for "time(x) without time zone"
+	// case StringHasPrefix(dt, Intervalkeywords):
+	case StringHasPrefix(dt, Intervalkeywords), regexp.MustCompile(`time\([0-6]\) without time zone`).MatchString(dt):
 		if strings.HasSuffix(dt, "[]") {
 			ArrayArgs = map[string]interface{}{"fromyear": fromyear, "toyear": toyear}
 			value, err := ArrayGenerator("time")
@@ -160,8 +161,9 @@ func BuildData(dt string) (interface{}, error) {
 			return value, nil
 		}
 
-	// Generate Random time with timezone
-	case strings.HasPrefix(dt, "time with time zone"):
+	// Generate Random time with timezone, Update at Sep 11th 2019, add support for "time(x) with time zone"
+	// case strings.HasPrefix(dt, "time with time zone"):
+	case strings.HasPrefix(dt, "time with time zone"), regexp.MustCompile(`time\([0-6]\) with time zone`).MatchString(dt):
 		if strings.HasSuffix(dt, "[]") {
 			ArrayArgs = map[string]interface{}{"fromyear": fromyear, "toyear": toyear}
 			value, err := ArrayGenerator("timetz")
